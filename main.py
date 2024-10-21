@@ -19,7 +19,6 @@ def escolha():
             [1] Consultar um modelo 
             [2] Adicionar um modelo 
             [3] Tabela de Preços
-            [4] consulta de preços
             """)
             
             modelo_opcao = int(input("Escolha o serviço desejado: ")) 
@@ -30,6 +29,7 @@ def escolha():
                 print("Digite a marca do aparelho")
                 print(f"Consultando o modelo com código {codigo}...")
                 print(f" Esse aparelho e o {nome}")
+                #adicionar um tratamento de erro para quando um modelo que nao foi adicionado ao sistema for consultado e nao quebrar o codigo 
                 
             elif modelo_opcao == 2:                                                                     
                 modelo = []  # Lista para armazenar os modelos
@@ -50,12 +50,16 @@ def escolha():
                 telas. append(valor)
                 print("valor salvo com sucesso")
                 
-            elif modelo_opcao == 4:
-                print("Digite o código do aparelho: ")
-                codigo = input()  # Captura o código do aparelho
-                print(f" Esse aparelho fica {valor}")
+                # arrumar o cadastro de serviço contendo o modelo do celular, o serviço a ser feito e o valor e salvar separado os valores de acordo com o serviço
+                #exemplo: troca de tela X reais troca de conector x reais...
                 
-                #para melhorar o codigo devo implemetar um dicinario
+            # elif modelo_opcao == 4:
+            #     print("Digite o código do aparelho: ")
+            #     codigo = input()  # Captura o código do aparelho
+            #     print(f" Esse aparelho fica {valor}")
+                
+            #     #arrumar consulta para listar todos os serviços disponiveis para esse serviço 
+            #     #para melhorar o codigo devo implemetar um dicinario
 
         if opcao == 2:
             print(
@@ -72,17 +76,32 @@ def escolha():
             opcao_servico = int(input("\n [1] Troca de telas \n [2] Troca de baterias \n [3] Troca de conectores de carga \n\n"))
             
             if opcao_servico == 1:
-                print("digite o modelo do aparelho")
+                
+                valor = telas
+                #funcionou porem tenho que implementar um arquivo .json para salvar os arquivos e serem acessados em todas as instancias do codigo 
+                
+                print("Digite o código do aparelho: ")
+                codigo = input()  # Captura o código do aparelho
+                print(f" Esse aparelho fica {valor}")
+                #adicionar um tratamento de erro para quando um modelo que nao foi adicionado ao sistema for consultado e nao quebrar o codigo 
+                #arrumar consulta para listar todos os serviços disponiveis para esse serviço 
+                #para melhorar o codigo devo implemetar um dicinario
                            
             elif opcao_servico == 2:  
-                print("b")
+                print("Digite o código do aparelho: ")
+                codigo = input()  # Captura o código do aparelho
+                print(f" Esse aparelho fica {valor}")
+                #adicionar um tratamento de erro para quando um modelo que nao foi adicionado ao sistema for consultado e nao quebrar o codigo 
 
             if opcao_servico == 3:
-                print("c")
+                print("Digite o código do aparelho: ")
+                codigo = input()  # Captura o código do aparelho
+                print(f" Esse aparelho fica {valor}")
+                #adicionar um tratamento de erro para quando um modelo que nao foi adicionado ao sistema for consultado e nao quebrar o codigo 
             
         if opcao == 3:
             
-            opcao_venda = int(input("\n [1] Celulares a venda \n [2] Notebooks a venda \n\n" )) #organizar como imolementar e retirar aparelhos da lista (algo parecido com a operação de saque)
+            opcao_venda = int(input("\n [1] Celulares a venda \n [2] Notebooks a venda \n\n" )) #organizar como implementar e retirar aparelhos da lista (algo parecido com a operação de saque)
             
             if opcao_venda == 1:
                 print("Celulares")
@@ -91,3 +110,6 @@ def escolha():
         
 escolha()
 
+
+
+            
