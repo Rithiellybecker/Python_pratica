@@ -1,0 +1,11 @@
+{
+    "sm-a025m": {
+        "marca": "samsung",
+        "nome": "a02s",
+        "precos": {
+            "troca_tela": "250",
+            "troca_bateria": "120",
+            "troca_conector": "100"
+        }
+    }
+}
