@@ -1,3 +1,10 @@
+# mudanças importante 
+# cruzar informaçoes do cadastro 
+# aplicar mascaras para formatação 
+# aplicar validaçoes para nao salvar duas vezes o mesmo numero 
+# mudar forma de salvar o estoque 
+# esta salvando os clientes mas nao esa exibindo eles na pesquisa 
+
 import json
 
 def carregar_dados(arquivo):
@@ -7,25 +14,31 @@ def carregar_dados(arquivo):
     except FileNotFoundError:
         return {}
 
-def salvar_dados(arquivo, dados):
-    with open(arquivo, 'w') as f:
-        json.dump(dados, f, indent=4)
+def salvar_dados(arquivo, dados): 
+    with open(arquivo, 'w', encoding='utf-8') as f:
+        json.dump(dados, f, indent=4, ensure_ascii=False)
 
 def salvar_estoque(arquivo, estoque):
+    with open(arquivo, 'w', encoding='utf-8') as f:
+        json.dump(estoque, f, indent=4, ensure_ascii=False)
+    
+def salvar_servicos(arquivo, servicos):
+    with open(arquivo, 'w', encoding='utf-8') as f:
+        json.dump(servicos, f, indent=4, ensure_ascii=False)
+        
+def salvar_clientes(arquivo, clientes):
+    with open(arquivo, 'w', encoding='utf-8') as f:
+        json.dump(clientes, f, indent=4, ensure_ascii=False)
+
+def salvar_vendas_celular(celulares):
     try:
-        with open('estoque.json', 'r') as arquivo:
-            estoque = json.load(arquivo)
+        with open('celulares.json', 'r') as arquivo:
+            celulares = json.load(arquivo)
     except FileNotFoundError:
         return {}
     
-def salvar_servico(servicos):
-    try:
-        with open('servicos.json', 'r') as arquivo:
-            servicos = json.load(arquivo)
-    except FileNotFoundError:
-        return {}
-    
-    
+#cadastros
+
 def cadastro_aparelho(dicionario):
     marca = input("Digite a marca do aparelho: ")
     codigo =input("Digite a codigo do aparelho: ")
@@ -33,6 +46,7 @@ def cadastro_aparelho(dicionario):
     valor_tela = input("Digite o valor da troca de tela ")
     valor_bateria = input("Digite o valor da troca de bateria ")
     valor_conector = input("Digite o valor da troca de conector de carga ")
+    valor_venda = input("Digite o valor de venda do aparelho ")
 
     dicionario[codigo] = {
                 "marca": marca,
@@ -40,7 +54,8 @@ def cadastro_aparelho(dicionario):
                 "precos": {
                     "troca_tela": valor_tela,
                     "troca_bateria": valor_bateria,
-                    "troca_conector": valor_conector
+                    "troca_conector": valor_conector,
+                    "venda": valor_venda
                     }
                 }
     
@@ -57,7 +72,7 @@ def cadastro_cliente(clientes):
 
 
 def cadastrar_estoque(estoque):
-    codigo = input("Digite o ID do produto: ")
+    codigo = input("Digite o ID do produto: ") #retirar essa parte 
     nome_produto = input("Digite o nome do produto: ")
     valor = input("Digite o valor do produto: ")
     condicao = input("Digite a condição do produto: ")
@@ -67,27 +82,14 @@ def cadastrar_estoque(estoque):
         "valor": valor,
         "condicao": condicao
     }
+    
     print("Produto cadastrado com sucesso!")
-
-
-def consultar_estoque(estoque): #arrumar a função de cadastro de estoque
-    id_produto = input("Digite o ID do produto a ser consultado: ")
-                   
-    if id_produto in estoque:
-        produto = estoque[id_produto]  # Corrigido o indentação
-
-        print(f"Produto: {produto['produto']}")
-        print(f"Valor: {produto['valor']}")
-        print(f"Condição: {produto['condicao']}")
-    else:
-        print("Produto não encontrado.")  # Mensagem de erro adicionada
-
     
 def cadastro_servico(servicos):
-    id_servico = input("Digite o ID do serviço a ser cadastradado: ")
-    id_cliente = input("Digite o ID do cliente a ser cadastradado: ")
-    modelo_servico = input("Digite a marca do aparelho: ")
-    valor_servico = input("Digite o valor do serviço: ")
+    id_servico = input("Digite o ID do serviço a ser cadastradado: ") 
+    id_cliente = input("Digite o ID do cliente: ") # pesquisar como associar diretamente ao banco de dados do cliente 
+    modelo_servico = input("Digite a marca e p modelo do aparelho: ") # mudar para adcionar o codigo do celular e ja pesquisar altomatico no banco de dados
+    valor_servico = input("Digite o valor do serviço: ") # mudar para colocar o tipo de serviço e ja procurar diretamente no banco de dados e devolver o valor do servilo no cadastro 
                 
     servicos[id_servico] = {
             "servico": id_servico,
@@ -122,6 +124,8 @@ def consultar_modelo(dicionario):
         print(f"  Troca de tela: {aparelho['precos']['troca_tela']}")
         print(f"  Troca de bateria: {aparelho['precos']['troca_bateria']}")
         print(f"  Troca de conector: {aparelho['precos']['troca_conector']}")
+        print(f"  Valor de venda {aparelho['precos']['venda']}")
+        
     else:
         print("Código não encontrado.")
 
@@ -157,14 +161,42 @@ def consulta_servico(servicos, clientes):
             print("Cliente não encontrado.")
     else:
         print("Serviço não encontrado.")
+        
+        
+def consultar_estoque(estoque): #arrumar a função de cadastro de estoque
+    id_produto = input("Digite o ID do produto a ser consultado: ")
+                   
+    if id_produto in estoque:
+        produto = estoque[id_produto]  # Corrigido o indentação
 
-     
+        print(f"Produto: {produto['produto']}")
+        print(f"Valor: {produto['valor']}")
+        print(f"Condição: {produto['condicao']}")
+    else:
+        print("Produto não encontrado.")  # Mensagem de erro adicionada
+
+def vendas_celulares(dicionario, vendas, aparelhos, clientes):
+    codigo = input('Digite o codigo do aparelho')
+    id_cliente = input('Digite o id do cliente')
+    data_venda = input('Digite a data da venda')
+    data_garantia = input('Digite o codigo do aparelho')
+    valor = float(input('Digite o valor da venda: '))  
+      
+    vendas[id_cliente] = {
+        "codigo":codigo,
+        "id_cliente":id_cliente,
+        "data_venda":data_venda,
+        "data_garantia":data_garantia,
+        "valor":valor
+    }
+    
 def main():
               
     dicionario = carregar_dados('dados.json')
     clientes = carregar_dados('clientes.json')
     estoque = carregar_dados('estoque.json')
     servicos = carregar_dados('servicos.json')
+    vendas_celulares = carregar_dados('celulares.json')
                    
     while True:
         
@@ -217,7 +249,7 @@ def main():
             print("""
                 [1] Celulares
                 [2] Notebooks
-                    """)
+                    """) #adicionar função de consulta de serviços para notebooks 
                 
             opcao_consulta = int(input("Escolha uma opção: "))
 
@@ -232,12 +264,12 @@ def main():
                   [1] Celulares
                   [2] Notebooks
                   [3] Peças
-                  """)
+                  """) #criar 3 funçoes para as vendas ate criar as classes e simplificar o codigo 
             
             opcao_vendas = int(input("Escolha uma opção "))
             
             if opcao_vendas == 1:
-                print("Celulares")
+                vendas_celulares("celulares")
 
             elif opcao_vendas == 2:
                 print("Notebooks")
